@@ -61,6 +61,35 @@ void	ft_free(void *addr)
 	tmp[1] = 0;
 }
 
+void	ft_merge_blocks(void)
+{
+	int		*ptr;
+
+	ptr = (int *)heap;
+	while ((void *)ptr < heap + HEAP_SIZE)
+	{
+		/*
+		dump_memory();
+		puts("merging");
+		printf("%p, %p\n", ptr, heap);
+		*/
+		if (ptr[1] == 1)
+		{
+			if (ptr[ptr[0] / 4] == ptr[0])
+				ptr += ptr[0] / 2;
+			else
+				ptr += ptr[0] / 4;
+		}
+		else if (ptr[1] == -1)
+			return ;
+		else if (ptr[0] == ptr[ptr[0] / 4] && ptr[ptr[0] /4 + 1] == 0)
+		{
+			ptr[0] *= 2;
+		}
+		else
+			ptr += ptr[0] / 4;
+	}
+}
 
 void	*ft_malloc(size_t size)
 {
@@ -78,7 +107,7 @@ void	*ft_malloc(size_t size)
 	alloc_size = ALLOC_MIN;
 	size += 8;
 	while (alloc_size < size)
-		alloc_size <<= 2;
+		alloc_size <<= 1;
 	return (void *)ft_get_block(free_blocks, alloc_size);
 }
 
@@ -86,6 +115,7 @@ void	dump_memory(void)
 {
 	int		*ptr;
 
+	puts("+++++MEMORY DUMP+++++");
 	ptr = (int *)heap;
 	while ((void *)ptr < heap + HEAP_SIZE)
 	{
@@ -95,4 +125,5 @@ void	dump_memory(void)
 			printf("[%p] :: size: %d, free\n", ptr, ptr[0]);
 		ptr += ptr[0] / 4;
 	}
+	puts("+++++++++++++++++++++");
 }
