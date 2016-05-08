@@ -1,0 +1,9 @@
+#ifndef MALLOC_H
+# define MALLOC_H
+# define HEAP_SIZE 1024 * 1024
+# define ALLOC_MIN (sizeof(int) * 2)
+
+int		*ft_get_block(int *current_block, size_t size);
+void	*ft_malloc(size_t size);
+
+#endif

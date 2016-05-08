@@ -1,9 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/mman.h>
+#include <malloc.h>
 
-#define HEAP_SIZE 1024 * 1024
-#define ALLOC_MIN (sizeof(int) * 2)
 
 void	*heap = NULL;
 int		*free_blocks = NULL;
@@ -17,7 +16,7 @@ int		*ft_get_block(int *current_block, size_t size)
 		return (NULL);
 
 	// block trop petit
-	if (current_block[0] < size)
+	if (current_block[0] < (int)size)
 		return (ft_get_block(current_block + current_block[0] / 4, size));
 
 	// block occupe
@@ -27,7 +26,7 @@ int		*ft_get_block(int *current_block, size_t size)
 	// le block est libre
 
 	// block de bonne taille
-	if (current_block[0] == size) // bonne taille
+	if (current_block[0] == (int)size) // bonne taille
 	{
 		current_block[1] = 1;
 		return (current_block + 2);
@@ -45,12 +44,13 @@ int		*ft_get_block(int *current_block, size_t size)
 		current_block[1] = 0;
 		return (ft_get_block(current_block, size));
 	}
+	return (NULL);
 }
 
 
 void	*ft_malloc(size_t size)
 {
-	int	alloc_size;
+	size_t	alloc_size;
 
 	if (heap == NULL)
 	{
@@ -64,5 +64,5 @@ void	*ft_malloc(size_t size)
 	size += 8;
 	while (alloc_size < size)
 		alloc_size <<= 2;
-	return (void *)ft_get_block(alloc_size);
+	return (void *)ft_get_block(free_blocks, alloc_size);
 }
