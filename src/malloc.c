@@ -83,8 +83,12 @@ void	ft_merge_blocks(void)
 		else if (ptr[1] == -1)
 			return ;
 		else if (ptr[0] == ptr[ptr[0] / 4] && ptr[ptr[0] /4 + 1] == 0)
+			ptr[0] *= 2;
+		else if (ptr[0] == ptr[ptr[0] / 4] &&
+				ptr[ptr[0] / 4 + 1] == -1)
 		{
 			ptr[0] *= 2;
+			ptr[1] = -1;
 		}
 		else
 			ptr += ptr[0] / 4;

@@ -60,7 +60,7 @@ int main(void)
 	ft_free(ptr[2]);
 	ft_merge_blocks();
 	dump_memory();
-	ft_free(ptr[2]);
+	ft_free(ptr[3]);
 	ft_merge_blocks();
 	dump_memory();
 	ft_free(ptr[4]);
