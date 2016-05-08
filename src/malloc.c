@@ -7,6 +7,11 @@
 void	*heap = NULL;
 int		*free_blocks = NULL;
 
+void	unmap(void)
+{
+	munmap(heap, HEAP_SIZE);
+}
+
 int		*ft_get_block(int *current_block, size_t size)
 {
 	int		split_size;
@@ -58,6 +63,7 @@ void	*ft_malloc(size_t size)
 		free_blocks = (int *)heap;
 		free_blocks[0] = HEAP_SIZE;
 		free_blocks[1] = -1;
+		atexit(&unmap);
 	}
 
 	alloc_size = ALLOC_MIN;
