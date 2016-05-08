@@ -6,5 +6,6 @@
 int		*ft_get_block(int *current_block, size_t size);
 void	*ft_malloc(size_t size);
 void	ft_free(void *addr);
+void	dump_memory(void);
 
 #endif

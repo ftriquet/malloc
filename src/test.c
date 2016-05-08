@@ -9,6 +9,6 @@ int main(void)
 	{
 		ptr = ft_malloc(50); //should allocate 64
 		printf("%p\n", ptr);
-		ft_free(ptr);
+		dump_memory();
 	}
 }

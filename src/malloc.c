@@ -81,3 +81,18 @@ void	*ft_malloc(size_t size)
 		alloc_size <<= 2;
 	return (void *)ft_get_block(free_blocks, alloc_size);
 }
+
+void	dump_memory(void)
+{
+	int		*ptr;
+
+	ptr = (int *)heap;
+	while ((void *)ptr < heap + HEAP_SIZE)
+	{
+		if (ptr[1] == 1)
+			printf("[%p] :: size: %d, allocated\n", ptr, ptr[0]);
+		else
+			printf("[%p] :: size: %d, free\n", ptr, ptr[0]);
+		ptr += ptr[0] / 4;
+	}
+}
