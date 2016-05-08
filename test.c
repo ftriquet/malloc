@@ -67,6 +67,11 @@ int main(void)
 	   printf("%p\n", ptr2);
 	   dump_tiny_heap();
 	   dump_small_heap();
+	   puts("Free 10000");
+	   ft_free(ptr2);
+	   printf("%p\n", ptr2);
+	   dump_tiny_heap();
+	   dump_small_heap();
 
 
 	/*

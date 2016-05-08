@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 
 int		ft_is_power_of_two(size_t nb)
 {

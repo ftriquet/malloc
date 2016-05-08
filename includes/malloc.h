@@ -53,9 +53,10 @@ int					*ft_large_alloc(size_t size);
 void				dump_small_heap(void);
 void				dump_tiny_heap(void);
 
+void				ft_free(void *addr);
+
 /*
 int					*ft_get_block(int *current_block, size_t size);
-void				ft_free(void *addr);
 void				dump_memory(void);
 void				ft_merge_blocks(void);
 void				ft_merge_block(int *begin, size_t size);

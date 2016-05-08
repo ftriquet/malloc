@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include <stdio.h>
 
 void	ft_merge_blocks(t_alloc_type type)
 {
