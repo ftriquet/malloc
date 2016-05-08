@@ -51,18 +51,23 @@ int main(void)
 	puts("FREE AND MERGE");
 	puts("===================");
 
+	puts("free 12");
 	ft_free(ptr[0]);
 	ft_merge_blocks();
 	dump_memory();
+	puts("free 45");
 	ft_free(ptr[1]);
 	ft_merge_blocks();
 	dump_memory();
+	puts("free 10");
 	ft_free(ptr[2]);
 	ft_merge_blocks();
 	dump_memory();
+	puts("free 1000");
 	ft_free(ptr[3]);
 	ft_merge_blocks();
 	dump_memory();
+	puts("free 10000");
 	ft_free(ptr[4]);
 	ft_merge_blocks();
 	dump_memory();

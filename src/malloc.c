@@ -58,6 +58,8 @@ void	ft_free(void *addr)
 
 	tmp = (int *)addr;
 	tmp -= 2;
+	if (tmp[1] != 1)
+		return ;
 	tmp[1] = 0;
 }
 
@@ -68,11 +70,6 @@ void	ft_merge_blocks(void)
 	ptr = (int *)heap;
 	while ((void *)ptr < heap + HEAP_SIZE)
 	{
-		/*
-		dump_memory();
-		puts("merging");
-		printf("%p, %p\n", ptr, heap);
-		*/
 		if (ptr[1] == 1)
 		{
 			if (ptr[ptr[0] / 4] == ptr[0])
