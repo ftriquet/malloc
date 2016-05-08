@@ -52,6 +52,15 @@ int		*ft_get_block(int *current_block, size_t size)
 	return (NULL);
 }
 
+void	ft_free(void *addr)
+{
+	int		*tmp;
+
+	tmp = (int *)addr;
+	tmp -= 2;
+	tmp[1] = 0;
+}
+
 
 void	*ft_malloc(size_t size)
 {
