@@ -34,7 +34,7 @@ int		*ft_get_block(int *current_block, size_t size)
 	// block de bonne taille
 	if (current_block[0] == (int)size) // bonne taille
 	{
-		current_block[1] = 1;
+		current_block[1] = 1; // mark as allocated
 		return (current_block + 2);
 	}
 	// block trop grand: on split et appel recursif
@@ -66,32 +66,21 @@ void	ft_free(void *addr)
 
 void	ft_merge_blocks(void)
 {
-	int		*ptr;
+	return (ft_merge_block((int *)heap, HEAP_SIZE));
+}
 
-	ptr = (int *)heap;
-	while ((void *)ptr < heap + HEAP_SIZE)
+void	ft_merge_block(int *begin, size_t size)
+{
+	if (size > 16)
 	{
-		if (ptr[1] == 1) // allocated block
-		{
-			// jump 2 blocks
-			if (ptr[ptr[0] / 4] == ptr[0])
-				ptr += ptr[0] / 2;
-			else // jump to next block
-				ptr += ptr[0] / 4;
-		}
-		else if (ptr[1] == -1) // last block
-			return ;
-		else if (ptr[0] == ptr[ptr[0] / 4] && ptr[ptr[0] /4 + 1] == 0) // 2 blocks libre de meme taille => merge
-			ptr[0] *= 2;
-		else if (ptr[0] == ptr[ptr[0] / 4] &&
-				ptr[ptr[0] / 4 + 1] == -1)
-		{
-			ptr[0] *= 2;
-			ptr[1] = -1;
-		}
-		else
-			ptr += ptr[0] / 4;
+		ft_merge_block(begin + (size / 8), size / 2);
+		ft_merge_block(begin, size / 2);
 	}
+	if ((void *)begin + begin[0] >= heap + HEAP_SIZE)
+		return ;
+	if ((begin[0] == begin[begin[0] / 4]) &&
+			(begin[1] != 1 && begin[begin[0] / 4 + 1] != 1))
+		begin[0] <<= 1;
 }
 
 void	*ft_malloc(size_t size)

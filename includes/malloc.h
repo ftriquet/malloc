@@ -8,5 +8,6 @@ void	*ft_malloc(size_t size);
 void	ft_free(void *addr);
 void	dump_memory(void);
 void	ft_merge_blocks(void);
+void	ft_merge_block(int *begin, size_t size);
 
 #endif

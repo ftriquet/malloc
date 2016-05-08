@@ -1,19 +1,35 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <malloc.h>
 
 int main(void)
 {
-	void	*ptr[5];
+	srand(time(NULL));
+	void	*ptr[150];
 	void	*ptr2;
 	(void)ptr;
 	(void)ptr2;
 
-	for (int i = 0; i < 2048; i++)
+	for (int i = 0; i < 150; i++)
 	{
-		ptr2 = ft_malloc(1000); //should allocate 1024
-		printf("%p\n", ptr2);
+		int rd = rand() % 1016;
+		printf("Allocating %d\n", rd);
+		ptr[i] = ft_malloc(rd); //should allocate 1024
+		printf("%p\n", ptr[i]);
+		if (ptr[i] == NULL)
+			break ;
 	}
 	dump_memory();
+	for (int i = 0; i < 150; i++)
+	{
+		ft_free(ptr[i]);
+	}
+	dump_memory();
+	ft_merge_blocks();
+	puts("MERGING");
+	dump_memory();
+
 
 	/*
 	   (void)ptr;
