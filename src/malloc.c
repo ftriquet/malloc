@@ -9,6 +9,7 @@ int		*free_blocks = NULL;
 
 void	unmap(void)
 {
+	puts("BYE");
 	munmap(heap, HEAP_SIZE);
 }
 
@@ -25,7 +26,7 @@ int		*ft_get_block(int *current_block, size_t size)
 		return (ft_get_block(current_block + current_block[0] / 4, size));
 
 	// block occupe
-	if (current_block[1] > 0)
+	if (current_block[1] == 1)
 		return (ft_get_block(current_block + current_block[0] / 4, size));
 
 	// le block est libre
@@ -70,16 +71,17 @@ void	ft_merge_blocks(void)
 	ptr = (int *)heap;
 	while ((void *)ptr < heap + HEAP_SIZE)
 	{
-		if (ptr[1] == 1)
+		if (ptr[1] == 1) // allocated block
 		{
+			// jump 2 blocks
 			if (ptr[ptr[0] / 4] == ptr[0])
 				ptr += ptr[0] / 2;
-			else
+			else // jump to next block
 				ptr += ptr[0] / 4;
 		}
-		else if (ptr[1] == -1)
+		else if (ptr[1] == -1) // last block
 			return ;
-		else if (ptr[0] == ptr[ptr[0] / 4] && ptr[ptr[0] /4 + 1] == 0)
+		else if (ptr[0] == ptr[ptr[0] / 4] && ptr[ptr[0] /4 + 1] == 0) // 2 blocks libre de meme taille => merge
 			ptr[0] *= 2;
 		else if (ptr[0] == ptr[ptr[0] / 4] &&
 				ptr[ptr[0] / 4 + 1] == -1)
