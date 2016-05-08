@@ -4,12 +4,14 @@
 int		ft_is_large_alloc(void *addr)
 {
 	// TODO
+	(void)addr;
 	return (1);
 }
 
 size_t	ft_get_alloc_size(void *addr)
 {
 	// TODO
+	(void)addr;
 	return (0);
 }
 

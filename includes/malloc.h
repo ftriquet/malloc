@@ -7,6 +7,8 @@
 # define TINY_HEAP g_malloc.tiny_heap
 # define SMALL_HEAP g_malloc.small_heap
 # define SMALL_HEAP_SIZE g_malloc.small_heap_size
+# define TINY_ALLOC_LIMIT (1024 - ALLOC_MIN)
+# define SMALL_ALLOC_LIMIT ((1024 * 16) - ALLOC_MIN)
 # define ALLOC_MIN (sizeof(int) * 2)
 
 typedef struct		s_malloc
@@ -37,13 +39,22 @@ int					ft_is_large_alloc(void *addr);
 
 void				ft_merge_blocks(t_alloc_type type);
 void				ft_merge_heap(int *ptr, void *heap,
-		size_t size, size_t heap_size)
+		size_t size, size_t heap_size);
 
+void				*ft_malloc(size_t size);
+void				ft_init_malloc(void);
 
+int					*ft_find_block(size_t size);
+int					*ft_get_block(int *current, void *heap,
+		size_t size, size_t heap_size);
+int					ft_extend_zone(void *heap);
+int					*ft_large_alloc(size_t size);
+
+void				dump_small_heap(void);
+void				dump_tiny_heap(void);
 
 /*
 int					*ft_get_block(int *current_block, size_t size);
-void				*ft_malloc(size_t size);
 void				ft_free(void *addr);
 void				dump_memory(void);
 void				ft_merge_blocks(void);

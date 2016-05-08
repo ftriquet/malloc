@@ -41,24 +41,27 @@ int main(void)
 	*/
 
 
-	/*
 	   (void)ptr;
 	   puts("Allocating 500");
-	   ptr = ft_malloc(500);
-	   dump_memory();
+	   ptr2 = ft_malloc(500);
+	   printf("%p\n", ptr2);
+	   dump_tiny_heap();
 	   puts("Allocating 1000");
-	   ptr = ft_malloc(1000);
-	   dump_memory();
+	   ptr2 = ft_malloc(1000);
+	   printf("%p\n", ptr2);
+	   dump_tiny_heap();
 	   puts("Allocating 10");
-	   ptr = ft_malloc(10);
-	   dump_memory();
+	   ptr2 = ft_malloc(10);
+	   printf("%p\n", ptr2);
+	   dump_tiny_heap();
 	   puts("Allocating 2");
-	   ptr = ft_malloc(2);
-	   dump_memory();
+	   ptr2 = ft_malloc(2);
+	   printf("%p\n", ptr2);
+	   dump_tiny_heap();
 	   puts("Allocating 10000");
-	   ptr = ft_malloc(10000);
-	   dump_memory();
-	   */
+	   ptr2 = ft_malloc(10000);
+	   printf("%p\n", ptr2);
+	   dump_tiny_heap();
 
 
 	/*
