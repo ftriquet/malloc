@@ -8,8 +8,8 @@ int		*ft_find_block(size_t size)
 	if (size <= TINY_ALLOC_LIMIT)
 		return (ft_get_block(TINY_HEAP, TINY_HEAP,
 					size, TINY_HEAP_SIZE));
-	else if (size < SMALL_ALLOC_LIMIT)
-		return (ft_get_block(SMALL_HEAP, TINY_HEAP,
+	else if (size <= SMALL_ALLOC_LIMIT)
+		return (ft_get_block(SMALL_HEAP, SMALL_HEAP,
 					size, SMALL_HEAP_SIZE));
 	return (ft_large_alloc(size));
 }

@@ -22,7 +22,7 @@ void	dump_small_heap(void)
 	int		*ptr;
 
 	puts("+++++MEMORY DUMP SMALL HEAP+++++");
-	ptr = (int *)TINY_HEAP;
+	ptr = (int *)SMALL_HEAP;
 	while ((void *)ptr < SMALL_HEAP + SMALL_HEAP_SIZE)
 	{
 		if (ptr[1] == 1)
