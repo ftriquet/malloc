@@ -92,7 +92,7 @@ void	*ft_malloc(size_t size)
 		heap = mmap(0, HEAP_SIZE, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
 		free_blocks = (int *)heap;
 		free_blocks[0] = HEAP_SIZE;
-		free_blocks[1] = -1;
+		free_blocks[1] = 0;
 		atexit(&unmap);
 	}
 

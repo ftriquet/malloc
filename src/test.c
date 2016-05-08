@@ -2,15 +2,24 @@
 #include <stdlib.h>
 #include <time.h>
 #include <malloc.h>
+#include <sys/resource.h>
+#include <sys/mman.h>
+#include <unistd.h>
 
 int main(void)
 {
+	struct rusage	usage;
+	long			save_pages;
+	getrusage(RUSAGE_SELF, &usage);
+	save_pages = usage.ru_minflt;
+
 	srand(time(NULL));
 	void	*ptr[150];
 	void	*ptr2;
 	(void)ptr;
 	(void)ptr2;
 
+	/*
 	for (int i = 0; i < 150; i++)
 	{
 		int rd = rand() % 1016;
@@ -29,6 +38,7 @@ int main(void)
 	ft_merge_blocks();
 	puts("MERGING");
 	dump_memory();
+	*/
 
 
 	/*
@@ -101,4 +111,8 @@ int main(void)
 	   ft_merge_blocks();
 	   dump_memory();
 	   */
+
+	getrusage(RUSAGE_SELF, &usage);
+	printf("RECLAIMED: %ld\n", usage.ru_minflt - save_pages - 1);
+	printf("PAGE SIZE: %d\n", getpagesize());
 }
