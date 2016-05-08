@@ -18,6 +18,7 @@ int		*ft_get_block(int *current, void *heap, size_t size, size_t heap_size)
 {
 	int		split_size;
 
+	printf("LOOKING AT %p for %ldB, limit : %p\n", current, size, heap + heap_size);
 	if ((void *)current >= (heap + heap_size))
 		if (ft_extend_zone(heap))
 			return (NULL);

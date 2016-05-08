@@ -7,8 +7,8 @@
 # define TINY_HEAP g_malloc.tiny_heap
 # define SMALL_HEAP g_malloc.small_heap
 # define SMALL_HEAP_SIZE g_malloc.small_heap_size
-# define TINY_ALLOC_LIMIT (1024 - ALLOC_MIN)
-# define SMALL_ALLOC_LIMIT ((1024 * 16) - ALLOC_MIN)
+# define TINY_ALLOC_LIMIT (1024)
+# define SMALL_ALLOC_LIMIT ((1024 * 16))
 # define ALLOC_MIN (sizeof(int) * 2)
 
 typedef struct		s_malloc
