@@ -1,75 +1,49 @@
 #include <malloc.h>
-#include <stdio.h>
-#include <errno.h>
 #include <sys/mman.h>
 
-int		*ft_find_block(size_t size)
+t_memblock	*ft_find_block(t_memblock **last, size_t size)
 {
-	if (size <= TINY_ALLOC_LIMIT)
-		return (ft_get_block(TINY_HEAP, TINY_HEAP,
-					size, TINY_HEAP_SIZE));
-	else if (size <= SMALL_ALLOC_LIMIT)
-		return (ft_get_block(SMALL_HEAP, SMALL_HEAP,
-					size, SMALL_HEAP_SIZE));
-	return (ft_large_alloc(size));
+	t_memblock *b;
+
+	b =  (t_memblock *)(g_malloc.tiny_heap);
+	while (b && !(b->free && b->size >= size)) {
+		*last  = b;
+		b = b->next;
+	}
+	return (b);
 }
 
-int		*ft_get_block(int *current, void *heap, size_t size, size_t heap_size)
+t_memblock	*ft_extend_heap(t_memblock *last, size_t size)
 {
-	int		split_size;
+	t_memblock	*b;
 
-	if ((void *)current >= (heap + heap_size))
-		if (ft_extend_zone(heap))
-			return (NULL);
-	if ((size_t)current[0] < size || current[1] == 1)
-		return (ft_get_block(current + current[0] / 4, heap, size, heap_size));
-	if (current[0] == (int)size) // bonne taille
-	{
-		current[1] = 1; // mark as allocated
-		return (current + 2);
+	b = mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE,
+			-1, 0);
+	if (b) {
+		b->size = size - BLOCK_SIZE;
+		b->next = NULL;
+		b->free = 1;
 	}
-	else
-	{
-		split_size = current[0] / 2;
-		current[0] = split_size;
-		current[split_size / 4] = split_size;
-		if (current[1] == -1) //dernier block
-			current[split_size / 4 + 1] = -1;
-		else //block libre
-			current[split_size / 4 + 1] = 0;
-		current[1] = 0;
-		return (ft_get_block(current, heap, size, heap_size));
+	if (last) {
+		last->next = b;
 	}
-	return (NULL);
+	return (b);
 }
 
-int		ft_extend_zone(void *heap)
+void		ft_split_block(t_memblock *block, size_t size)
 {
-	size_t	size;
-	void	*heap_extension;
+	t_memblock	*new_block;
 
-	if (heap == TINY_HEAP)
-		size = TINY_HEAP_SIZE;
-	else
-		size = SMALL_HEAP_SIZE;
-	heap_extension = mmap(heap + size, size,  PROT_READ | PROT_WRITE,
-			MAP_ANON | MAP_PRIVATE, -1, 0);
-	if (heap_extension == NULL)
-	{
-		errno = ENOMEM;
-		return (1);
-	}
-	if (heap == TINY_HEAP)
-		TINY_HEAP_SIZE *= 2;
-	else
-		SMALL_HEAP_SIZE *= 2;
-	((int *)heap_extension)[0] = (int)size;
-	((int *)heap_extension)[1] = 1;
-	return (0);
+	new_block = (t_memblock *)(block->data + size);
+	new_block->size = block->size - size - BLOCK_SIZE;
+	new_block->next = block->next;
+	new_block->free = 1;
+	block->size = size;
+	block->next = new_block;
 }
 
-int		*ft_large_alloc(size_t size)
+void		*ft_large_alloc(size_t size)
 {
-	return (mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
+	(void)size;
 	return (NULL);
 }
