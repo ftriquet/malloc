@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include <libft.h>
 #include <sys/mman.h>
 
 t_malloc	g_malloc = {/*TINY_HEAP_SIZE, SMALL_HEAP_SIZE,*/ NULL, NULL};
@@ -54,6 +55,7 @@ void	*ft_malloc(size_t size)
 	size = ALIGN_SIZE(size);
 	if (size <= TINY_ALLOC_LIMIT)
 		return (ft_alloc(TINY_HEAP, size, TINY));
+	ft_putendl("SMALL");
 	if (size <= SMALL_ALLOC_LIMIT)
 		return (ft_alloc(SMALL_HEAP, size, SMALL));
 	return (ft_large_alloc(size));

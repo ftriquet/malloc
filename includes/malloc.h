@@ -6,8 +6,8 @@
 # define MALLOC_H
 # define TINY_HEAP g_malloc.tiny_heap
 # define SMALL_HEAP g_malloc.small_heap
-# define TINY_HEAP_SIZE (getpagesize() * 512)
-# define SMALL_HEAP_SIZE (getpagesize() * 64)
+# define TINY_HEAP_SIZE (getpagesize() * 64)
+# define SMALL_HEAP_SIZE (getpagesize() * 512)
 # define TINY_ALLOC_LIMIT (1024)
 # define SMALL_ALLOC_LIMIT ((1024 * 16))
 # define ALLOC_MIN (sizeof(int) * 2)
@@ -25,7 +25,6 @@ typedef struct			s_memblock
 	char				data[1];
 }						t_memblock;
 
-extern t_malloc			g_malloc;
 
 typedef struct			s_malloc
 {
@@ -34,6 +33,8 @@ typedef struct			s_malloc
 	void				*tiny_heap;
 	void				*small_heap;
 }						t_malloc;
+
+extern t_malloc			g_malloc;
 
 typedef enum			e_alloc_type
 {
