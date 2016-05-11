@@ -38,7 +38,7 @@ void	ft_free(void *addr)
 	type = ft_is_valid_addr(addr);
 	if (type == TINY || type == SMALL)
 	{
-		puts("FREEEEEE");
+		/* puts("FREEEEEE"); */
 		tmp = addr;
 		tmp -= 2;
 		if (tmp[1] != 1)

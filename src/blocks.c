@@ -18,7 +18,6 @@ int		*ft_get_block(int *current, void *heap, size_t size, size_t heap_size)
 {
 	int		split_size;
 
-	printf("LOOKING AT %p for %ldB, limit : %p\n", current, size, heap + heap_size);
 	if ((void *)current >= (heap + heap_size))
 		if (ft_extend_zone(heap))
 			return (NULL);
@@ -26,7 +25,6 @@ int		*ft_get_block(int *current, void *heap, size_t size, size_t heap_size)
 		return (ft_get_block(current + current[0] / 4, heap, size, heap_size));
 	if (current[0] == (int)size) // bonne taille
 	{
-		printf("RETURNING ALLOCATION OF %lu AT %p\n", size, current);
 		current[1] = 1; // mark as allocated
 		return (current + 2);
 	}
@@ -72,6 +70,6 @@ int		ft_extend_zone(void *heap)
 
 int		*ft_large_alloc(size_t size)
 {
-	(void)size;
+	return (mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
 	return (NULL);
 }

@@ -55,6 +55,9 @@ void				dump_tiny_heap(void);
 
 void				ft_free(void *addr);
 
+void				free(void *addr);
+void				*malloc(size_t size);
+
 /*
 int					*ft_get_block(int *current_block, size_t size);
 void				dump_memory(void);
