@@ -29,7 +29,7 @@ int		ft_init_malloc(void)
 	return (0);
 }
 
-void	*ft_alloc(t_memblock *last, size_t size, t_alloc_type type)
+void		*ft_alloc(t_memblock *last, size_t size, t_alloc_type type)
 {
 	t_memblock	*block;
 
@@ -48,7 +48,60 @@ void	*ft_alloc(t_memblock *last, size_t size, t_alloc_type type)
 	return (block->data);
 }
 
-void	*ft_malloc(size_t size)
+void		ft_free(void *addr)
+{
+	t_memblock		*block;
+	t_memblock		*prev;
+
+	block = (t_memblock *)(addr - BLOCK_SIZE);
+	prev = ft_is_valid_block(block);
+	if (prev != NULL && block->free == 0)
+	{
+		block->free = 1;
+		ft_merge_blocks(block, prev);
+	}
+}
+
+t_memblock	*ft_is_valid_block(t_memblock *block)
+{
+	t_memblock	*tmp;
+	t_memblock	*prev;
+
+	if (block->size <= TINY_ALLOC_LIMIT)
+		tmp = TINY_HEAP;
+	else if (block->size <= SMALL_ALLOC_LIMIT)
+		tmp = SMALL_HEAP;
+	else
+		tmp = LARGE_ALLOCS;
+	prev = tmp;
+	while (tmp)
+	{
+		if (tmp == block)
+			return (prev);
+		prev = tmp;
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+void		ft_merge_blocks(t_memblock *block, t_memblock *prev)
+{
+	if (block->next == NULL)
+		return ;
+	while (block->next != NULL && block->next->free == 1)
+	{
+		block->size += block->next->size + BLOCK_SIZE;
+		block->next = block->next->next;
+	}
+	if (block != NULL && prev != NULL && block != prev && prev->free == 1 &&
+			block->free == 1)
+	{
+		prev->size += block->size + BLOCK_SIZE;
+		prev->next = block->next;
+	}
+}
+
+void		*ft_malloc(size_t size)
 {
 	if (ft_init_malloc() || size == 0)
 		return (NULL);
@@ -59,4 +112,26 @@ void	*ft_malloc(size_t size)
 	if (size <= SMALL_ALLOC_LIMIT)
 		return (ft_alloc(SMALL_HEAP, size, SMALL));
 	return (ft_large_alloc(size));
+}
+
+void	dump_memory(void)
+{
+	t_memblock	*block;
+
+	block = TINY_HEAP;
+	ft_putendl("====TINY_HEAP===");
+	while (block)
+	{
+		ft_printf("[%p] FREE: %d, size: %8d\n", block->data, block->free, block->size);
+		block = block->next;
+	}
+	ft_putendl("=================");
+	ft_putendl("====SMALL_HEAP===");
+	block = SMALL_HEAP;
+	while (block)
+	{
+		ft_printf("[%p] FREE: %d\n", block->data, block->free);
+		block = block->next;
+	}
+	ft_putendl("=================");
 }
