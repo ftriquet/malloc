@@ -6,7 +6,7 @@
 #    By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/14 17:19:54 by ftriquet          #+#    #+#              #
-#    Updated: 2016/05/14 17:30:46 by ftriquet         ###   ########.fr        #
+#    Updated: 2016/05/14 17:33:27 by ftriquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -f $(LINK_NAME)
 
 re: fclean all
 
