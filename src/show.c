@@ -33,7 +33,10 @@ void	print_memzone(t_memblock *b)
 		print_addr((void *)(b->data + b->size));
 		write(1, " : ", 3);
 		ft_putnbr((int)(b->size), 10);
-		write(1, " octets\n", 7);
+		write(1, " octets, ", 9);
+		write(1, "free: ", 6);
+		ft_putnbr((int)(b->free), 10);
+		write(1, "\n", 1);
 		b = b->next;
 	}
 }

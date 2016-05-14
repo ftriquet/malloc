@@ -98,33 +98,3 @@ void		ft_merge_blocks(t_memblock *block, t_memblock *prev)
 		prev->next = block->next;
 	}
 }
-
-void	dump_memory(void)
-{
-	t_memblock	*block;
-
-	block = TINY_HEAP;
-	ft_putendl("====TINY_HEAP===");
-	while (block)
-	{
-		ft_printf("[%p] FREE: %d, size: %8d\n", block->data, block->free, block->size);
-		block = block->next;
-	}
-	ft_putendl("=================");
-	ft_putendl("====SMALL_HEAP===");
-	block = SMALL_HEAP;
-	while (block)
-	{
-		ft_printf("[%p] FREE: %d, size: %8d\n", block->data, block->free, block->size);
-		block = block->next;
-	}
-	ft_putendl("=================");
-	block = LARGE_HEAP;
-	ft_putendl("====LARGE_HEAP===");
-	while (block)
-	{
-		ft_printf("[%p] FREE: %d, size: %8d\n", block->data, block->free, block->size);
-		block = block->next;
-	}
-	ft_putendl("=================");
-}
