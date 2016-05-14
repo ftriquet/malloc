@@ -69,7 +69,7 @@ void		ft_remove_large_alloc(t_memblock *block, t_memblock *prev);
 void		*malloc_unsafe(size_t size);
 void		free_unsafe(void *addr);
 void		*realloc_unsafe(void *addr, size_t size);
-void		print_memzone(t_memblock *b);
+void		print_memzone(t_memblock *b, t_ui *total);
 void		print_addr(void *addr);
 void		show_alloc_mem(void);
 

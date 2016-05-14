@@ -4,16 +4,21 @@
 void	show_alloc_mem(void)
 {
 	t_memblock	*b;
+	t_ui		total;
 
+	total = 0;
 	b = TINY_HEAP;
-	write(1, "TINY: ", 6);
-	print_memzone(b);
+	write(1, "TINY : ", 7);
+	print_memzone(b, &total);
 	b = SMALL_HEAP;
-	write(1, "SMALL: ", 6);
-	print_memzone(b);
+	write(1, "SMALL : ", 8);
+	print_memzone(b, &total);
 	b = LARGE_HEAP;
-	write(1, "LARGE: ", 6);
-	print_memzone(b);
+	write(1, "LARGE : ", 8);
+	print_memzone(b, &total);
+	write(1, "Total: ", 7);
+	ft_putnbr((int)total, 10);
+	write(1, " octets\n", 8);
 }
 
 void	print_addr(void *addr)
@@ -22,21 +27,22 @@ void	print_addr(void *addr)
 	ft_putnbr((int)addr, 16);
 }
 
-void	print_memzone(t_memblock *b)
+void	print_memzone(t_memblock *b, t_ui *total)
 {
 	print_addr(b);
 	write(1, "\n", 1);
 	while (b)
 	{
-		print_addr((void *)(b->data));
-		write(1, " - ", 3);
-		print_addr((void *)(b->data + b->size));
-		write(1, " : ", 3);
-		ft_putnbr((int)(b->size), 10);
-		write(1, " octets, ", 9);
-		write(1, "free: ", 6);
-		ft_putnbr((int)(b->free), 10);
-		write(1, "\n", 1);
+		if (b->free == 0)
+		{
+			print_addr((void *)(b->data));
+			write(1, " - ", 3);
+			print_addr((void *)(b->data + b->size));
+			write(1, " : ", 3);
+			ft_putnbr((int)(b->size), 10);
+			write(1, " octets\n", 8);
+			*total += b->size;
+		}
 		b = b->next;
 	}
 }
