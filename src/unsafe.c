@@ -10,17 +10,24 @@ void		*realloc_unsafe(void *addr, size_t size)
 	if (addr == NULL)
 		return (malloc(size));
 	prev = ft_is_valid_block((t_memblock *)(addr - BLOCK_SIZE));
-	if (prev)
+	if (prev == NULL)
+		return (NULL);
+	block = (prev == (addr - BLOCK_SIZE)) ? prev : prev->next;
+	if (block->next && block->next->free == 1 && block->next->size + block->size >= size)
 	{
-		block = malloc(size);
-		if (block)
-		{
-			ft_memmove(block, addr, (prev == addr - BLOCK_SIZE) ? prev->size : prev->next->size);
-			free(addr);
-			return (block);
-		}
+		block->size += block->next->size + BLOCK_SIZE;
+		block->next = block->next->next;
+		ft_split_block(block, size);
+		return (block);
 	}
-	return (NULL);
+	block = malloc(size);
+	if (block)
+	{
+		ft_memmove(block, addr, (prev == addr - BLOCK_SIZE) ? prev->size : prev->next->size);
+		free(addr);
+		return (block);
+	}
+	return (block);
 }
 
 void		free_unsafe(void *addr)
