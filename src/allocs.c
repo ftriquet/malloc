@@ -3,7 +3,10 @@
 #include <libft.h>
 #include <sys/mman.h>
 
-t_malloc	g_malloc = {/*TINY_HEAP_SIZE, SMALL_HEAP_SIZE,*/ NULL, NULL};
+t_malloc	g_malloc = {NULL, NULL, NULL};
+pthread_mutex_t	g_malloc_locker;
+pthread_mutex_t	g_realloc_locker;
+pthread_mutex_t	g_free_locker;
 
 int		ft_init_malloc(void)
 {
@@ -27,6 +30,10 @@ int		ft_init_malloc(void)
 	cast->size = SMALL_HEAP_SIZE - BLOCK_SIZE;
 	cast->next = NULL;
 	cast->free = 1;
+	LARGE_HEAP = NULL;
+	pthread_mutex_init(&g_malloc_locker, NULL);
+	pthread_mutex_init(&g_realloc_locker, NULL);
+	pthread_mutex_init(&g_free_locker, NULL);
 	return (0);
 }
 
@@ -34,7 +41,7 @@ void		*ft_alloc(t_memblock *last, size_t size, t_alloc_type type)
 {
 	t_memblock	*block;
 
-	block = ft_find_block(&last, size);
+	block = ft_find_block(&last, size, type);
 	if (block && ((block->size - size) >= (BLOCK_SIZE + 8)))
 		ft_split_block(block, size);
 	else if (!block)
@@ -42,47 +49,15 @@ void		*ft_alloc(t_memblock *last, size_t size, t_alloc_type type)
 		block = ft_extend_heap(last,
 				(type == TINY ? TINY_HEAP_SIZE : SMALL_HEAP_SIZE));
 		if (!block)
+		{
 			return (NULL);
+		}
 	}
 	if (block)
 		block->free = 0;
 	return (block->data);
 }
 
-void		*realloc(void *addr, size_t size)
-{
-	t_memblock	*block;
-	t_memblock	*prev;
-
-	if (addr == NULL)
-		return (malloc(size));
-	prev = ft_is_valid_block((t_memblock *)(addr - BLOCK_SIZE));
-	if (prev)
-	{
-		block = malloc(size);
-		if (block)
-		{
-			ft_memmove(block, addr, (prev == addr - BLOCK_SIZE) ? prev->size : prev->next->size);
-			free(addr);
-			return (block);
-		}
-	}
-	return (NULL);
-}
-
-void		free(void *addr)
-{
-	t_memblock		*block;
-	t_memblock		*prev;
-
-	block = (t_memblock *)(addr - BLOCK_SIZE);
-	prev = ft_is_valid_block(block);
-	if (prev != NULL && block->free == 0)
-	{
-		block->free = 1;
-		ft_merge_blocks(block, prev);
-	}
-}
 
 t_memblock	*ft_is_valid_block(t_memblock *block)
 {
@@ -96,7 +71,7 @@ t_memblock	*ft_is_valid_block(t_memblock *block)
 	else if (block->size <= SMALL_ALLOC_LIMIT)
 		tmp = SMALL_HEAP;
 	else
-		tmp = LARGE_ALLOCS;
+		tmp = LARGE_HEAP;
 	prev = tmp;
 	while (tmp)
 	{
@@ -125,18 +100,6 @@ void		ft_merge_blocks(t_memblock *block, t_memblock *prev)
 	}
 }
 
-void		*malloc(size_t size)
-{
-	if (ft_init_malloc() || size == 0)
-		return (NULL);
-	size = ALIGN_SIZE(size);
-	if (size <= TINY_ALLOC_LIMIT)
-		return (ft_alloc(TINY_HEAP, size, TINY));
-	if (size <= SMALL_ALLOC_LIMIT)
-		return (ft_alloc(SMALL_HEAP, size, SMALL));
-	return (ft_large_alloc(size));
-}
-
 void	dump_memory(void)
 {
 	t_memblock	*block;
@@ -153,7 +116,15 @@ void	dump_memory(void)
 	block = SMALL_HEAP;
 	while (block)
 	{
-		ft_printf("[%p] FREE: %d\n", block->data, block->free);
+		ft_printf("[%p] FREE: %d, size: %8d\n", block->data, block->free, block->size);
+		block = block->next;
+	}
+	ft_putendl("=================");
+	block = LARGE_HEAP;
+	ft_putendl("====LARGE_HEAP===");
+	while (block)
+	{
+		ft_printf("[%p] FREE: %d, size: %8d\n", block->data, block->free, block->size);
 		block = block->next;
 	}
 	ft_putendl("=================");
