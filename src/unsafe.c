@@ -28,6 +28,8 @@ void		free_unsafe(void *addr)
 	t_memblock		*block;
 	t_memblock		*prev;
 
+	if (addr == NULL)
+		return ;
 	block = (t_memblock *)(addr - BLOCK_SIZE);
 	prev = ft_is_valid_block(block);
 	if (prev != NULL && block->free == 0)

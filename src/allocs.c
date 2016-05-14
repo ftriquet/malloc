@@ -49,9 +49,8 @@ void		*ft_alloc(t_memblock *last, size_t size, t_alloc_type type)
 		block = ft_extend_heap(last,
 				(type == TINY ? TINY_HEAP_SIZE : SMALL_HEAP_SIZE));
 		if (!block)
-		{
 			return (NULL);
-		}
+		return (ft_alloc(block, size, type));
 	}
 	if (block)
 		block->free = 0;
