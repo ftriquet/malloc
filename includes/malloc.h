@@ -47,6 +47,7 @@ void		ft_merge_blocks(t_memblock *block, t_memblock *prev);
 t_memblock	*ft_is_valid_block(t_memblock *block);
 void		dump_memory(void);
 void		ft_free(void *addr);
+void		*ft_realloc(void *addr, size_t size);
 
 t_memblock	*ft_find_block(t_memblock **last, size_t size);
 t_memblock	*ft_extend_heap(t_memblock *last, size_t size);

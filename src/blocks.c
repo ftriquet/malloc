@@ -45,6 +45,5 @@ void		ft_split_block(t_memblock *block, size_t size)
 
 void		*ft_large_alloc(size_t size)
 {
-	(void)size;
-	return (NULL);
+	return (mmap(0, size, PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0));
 }

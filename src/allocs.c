@@ -1,4 +1,5 @@
 #include <malloc.h>
+#include <stdlib.h>
 #include <libft.h>
 #include <sys/mman.h>
 
@@ -48,7 +49,26 @@ void		*ft_alloc(t_memblock *last, size_t size, t_alloc_type type)
 	return (block->data);
 }
 
-void		ft_free(void *addr)
+void		*realloc(void *addr, size_t size)
+{
+	t_memblock	*block;
+	t_memblock	*prev;
+
+	prev = ft_is_valid_block(addr - BLOCK_SIZE);
+	if (prev)
+	{
+		block = malloc(size);
+		if (block)
+		{
+			ft_memmove(block, addr, prev->next->size);
+			free(addr);
+			return (block);
+		}
+	}
+	return (NULL);
+}
+
+void		free(void *addr)
 {
 	t_memblock		*block;
 	t_memblock		*prev;
@@ -101,14 +121,14 @@ void		ft_merge_blocks(t_memblock *block, t_memblock *prev)
 	}
 }
 
-void		*ft_malloc(size_t size)
+void		*malloc(size_t size)
 {
 	if (ft_init_malloc() || size == 0)
 		return (NULL);
 	size = ALIGN_SIZE(size);
+	 write(1, "MALLOC\n", 7);
 	if (size <= TINY_ALLOC_LIMIT)
 		return (ft_alloc(TINY_HEAP, size, TINY));
-	ft_putendl("SMALL");
 	if (size <= SMALL_ALLOC_LIMIT)
 		return (ft_alloc(SMALL_HEAP, size, SMALL));
 	return (ft_large_alloc(size));
