@@ -29,16 +29,6 @@ typedef struct			s_memblock
 	char				data[1];
 }						t_memblock;
 
-/*
-typedef struct			s_memzone
-{
-	t_ui				size;
-	t_alloc_type		type;
-	struct s_memzone	*next;
-}						t_memzone;
-*/
-
-
 typedef struct			s_malloc
 {
 	void				*tiny_heap;
@@ -72,7 +62,8 @@ void		*realloc_unsafe(void *addr, size_t size);
 void		print_memzone(t_memblock *b, t_ui *total);
 void		print_addr(void *addr);
 void		show_alloc_mem(void);
-
+void		print_alloc_info(t_memblock *b);
+void		dump_zone(t_alloc_type type);
 
 t_memblock	*ft_find_block(t_memblock **last, size_t size, t_alloc_type type);
 t_memblock	*ft_extend_heap(t_memblock *last, size_t size);

@@ -6,7 +6,7 @@
 #    By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/14 17:19:54 by ftriquet          #+#    #+#              #
-#    Updated: 2016/05/14 17:33:27 by ftriquet         ###   ########.fr        #
+#    Updated: 2016/05/14 19:16:47 by ftriquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRC = src/allocs.c \
 	  src/blocks.c \
 	  src/safe.c \
 	  src/show.c \
-	  src/unsafe.c
+	  src/unsafe.c \
+	  src/dump.c
 
 OBJ = $(SRC:.c=.o)
 

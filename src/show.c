@@ -35,14 +35,19 @@ void	print_memzone(t_memblock *b, t_ui *total)
 	{
 		if (b->free == 0)
 		{
-			print_addr((void *)(b->data));
-			write(1, " - ", 3);
-			print_addr((void *)(b->data + b->size));
-			write(1, " : ", 3);
-			ft_putnbr((int)(b->size), 10);
-			write(1, " octets\n", 8);
+			print_alloc_info(b);
 			*total += b->size;
 		}
 		b = b->next;
 	}
+}
+
+void	print_alloc_info(t_memblock *b)
+{
+	print_addr((void *)(b->data));
+	write(1, " - ", 3);
+	print_addr((void *)(b->data + b->size));
+	write(1, " : ", 3);
+	ft_putnbr((int)(b->size), 10);
+	write(1, " octets\n", 8);
 }
