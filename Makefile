@@ -6,7 +6,7 @@
 #    By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/14 17:19:54 by ftriquet          #+#    #+#              #
-#    Updated: 2016/05/14 17:28:55 by ftriquet         ###   ########.fr        #
+#    Updated: 2016/05/14 17:30:46 by ftriquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ SRC = src/allocs.c \
 	  src/blocks.c \
 	  src/safe.c \
 	  src/show.c \
-	  src/test.c \
 	  src/unsafe.c
 
 OBJ = $(SRC:.c=.o)
@@ -41,7 +40,7 @@ $(NAME): $(OBJ)
 	ln -s $(NAME) $(LINK_NAME)
 
 %.o: %.c
-	gcc $(CFLAGS) $(INC) $(LIBFT_INC) $^
+	gcc -c $(CFLAGS) $(INC) $(LIBFT_INC) $^ -o $@
 
 clean:
 	rm -f $(OBJ)
