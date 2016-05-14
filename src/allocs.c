@@ -54,13 +54,15 @@ void		*realloc(void *addr, size_t size)
 	t_memblock	*block;
 	t_memblock	*prev;
 
-	prev = ft_is_valid_block(addr - BLOCK_SIZE);
+	if (addr == NULL)
+		return (malloc(size));
+	prev = ft_is_valid_block((t_memblock *)(addr - BLOCK_SIZE));
 	if (prev)
 	{
 		block = malloc(size);
 		if (block)
 		{
-			ft_memmove(block, addr, prev->next->size);
+			ft_memmove(block, addr, (prev == addr - BLOCK_SIZE) ? prev->size : prev->next->size);
 			free(addr);
 			return (block);
 		}
@@ -87,6 +89,8 @@ t_memblock	*ft_is_valid_block(t_memblock *block)
 	t_memblock	*tmp;
 	t_memblock	*prev;
 
+	if (block == NULL)
+		return (NULL);
 	if (block->size <= TINY_ALLOC_LIMIT)
 		tmp = TINY_HEAP;
 	else if (block->size <= SMALL_ALLOC_LIMIT)
@@ -126,7 +130,6 @@ void		*malloc(size_t size)
 	if (ft_init_malloc() || size == 0)
 		return (NULL);
 	size = ALIGN_SIZE(size);
-	 write(1, "MALLOC\n", 7);
 	if (size <= TINY_ALLOC_LIMIT)
 		return (ft_alloc(TINY_HEAP, size, TINY));
 	if (size <= SMALL_ALLOC_LIMIT)
