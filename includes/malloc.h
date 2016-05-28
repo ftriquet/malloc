@@ -37,9 +37,7 @@ typedef struct			s_malloc
 }						t_malloc;
 
 extern t_malloc			g_malloc;
-extern pthread_mutex_t	g_malloc_locker;
-extern pthread_mutex_t	g_realloc_locker;
-extern pthread_mutex_t	g_free_locker;
+extern pthread_mutex_t	g_locker;
 
 typedef enum			e_alloc_type
 {

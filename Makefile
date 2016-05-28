@@ -6,7 +6,7 @@
 #    By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/14 17:19:54 by ftriquet          #+#    #+#              #
-#    Updated: 2016/05/14 19:16:47 by ftriquet         ###   ########.fr        #
+#    Updated: 2016/05/28 14:17:02 by francois         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ $(NAME): $(OBJ)
 	ln -s $(NAME) $(LINK_NAME)
 
 %.o: %.c
-	gcc -c $(CFLAGS) $(INC) $(LIBFT_INC) $^ -o $@
+	gcc -c $(CFLAGS) $(INC) $(LIBFT_INC) $^ -o $@ -fPIC
 
 clean:
 	rm -f $(OBJ)

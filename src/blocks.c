@@ -64,9 +64,6 @@ void		*ft_large_alloc(size_t size)
 
 void		ft_remove_large_alloc(t_memblock *block, t_memblock *prev)
 {
-	t_memblock	*tmp;
-
-	tmp = block;
 	if (prev == block)
 		LARGE_HEAP = block->next;
 	else

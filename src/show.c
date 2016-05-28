@@ -24,7 +24,7 @@ void	show_alloc_mem(void)
 void	print_addr(void *addr)
 {
 	write(1, "0x", 2);
-	ft_putnbr((int)addr, 16);
+	ft_putnbr((size_t)addr, 16);
 }
 
 void	print_memzone(t_memblock *b, t_ui *total)

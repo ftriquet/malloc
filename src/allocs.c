@@ -4,9 +4,7 @@
 #include <sys/mman.h>
 
 t_malloc	g_malloc = {NULL, NULL, NULL};
-pthread_mutex_t	g_malloc_locker;
-pthread_mutex_t	g_realloc_locker;
-pthread_mutex_t	g_free_locker;
+pthread_mutex_t	g_locker;
 
 int		ft_init_malloc(void)
 {
@@ -31,9 +29,7 @@ int		ft_init_malloc(void)
 	cast->next = NULL;
 	cast->free = 1;
 	LARGE_HEAP = NULL;
-	pthread_mutex_init(&g_malloc_locker, NULL);
-	pthread_mutex_init(&g_realloc_locker, NULL);
-	pthread_mutex_init(&g_free_locker, NULL);
+	pthread_mutex_init(&g_locker, NULL);
 	return (0);
 }
 
