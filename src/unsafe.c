@@ -8,24 +8,25 @@ void		*realloc_unsafe(void *addr, size_t size)
 	t_memblock	*prev;
 
 	if (addr == NULL)
-		return (malloc(size));
+		return (malloc_unsafe(size));
 	prev = ft_is_valid_block((t_memblock *)(addr - BLOCK_SIZE));
 	if (prev == NULL)
 		return (NULL);
 	block = (prev == (addr - BLOCK_SIZE)) ? prev : prev->next;
-	if (block->next && block->next->free == 1 && block->next->size + block->size >= size)
+	if (block->next && block->next->free == 1 &&
+			block->next->size + block->size >= size)
 	{
 		block->size += block->next->size + BLOCK_SIZE;
 		block->next = block->next->next;
 		ft_split_block(block, size);
 		return (block);
 	}
-	block = malloc(size);
+	block = malloc_unsafe(size);
 	if (block)
 	{
-		ft_memmove(block, addr, (prev == addr - BLOCK_SIZE) ? prev->size : prev->next->size);
-		free(addr);
-		return (block);
+		ft_memmove(block, addr, (prev == addr - BLOCK_SIZE) ?
+				prev->size : prev->next->size);
+		free_unsafe(addr);
 	}
 	return (block);
 }
@@ -50,8 +51,6 @@ void		free_unsafe(void *addr)
 
 void		*malloc_unsafe(size_t size)
 {
-	if (ft_init_malloc() || size == 0)
-		return (NULL);
 	size = ALIGN_SIZE_8(size);
 	if (size <= TINY_ALLOC_LIMIT)
 		return (ft_alloc(TINY_HEAP, size, TINY));

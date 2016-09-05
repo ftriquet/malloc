@@ -16,7 +16,7 @@
 # define ALIGN_SIZE_8(x) (((((x) - 1) >> 3) << 3) + 8)
 # define ALIGN_SIZE_4096(x) (((((x) -1) >> 12) << 12) + 4096)
 # define BLOCK_SIZE (sizeof(t_memblock) - sizeof(char *))
-# define LOCKER g_malloc.mu
+# define LOCK_INIT g_malloc.locked
 
 
 typedef unsigned int	t_ui;
@@ -34,6 +34,7 @@ typedef struct			s_malloc
 	void				*tiny_heap;
 	void				*small_heap;
 	void				*large_heap;
+	int					locked;
 }						t_malloc;
 
 extern t_malloc			g_malloc;

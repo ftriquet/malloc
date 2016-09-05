@@ -3,10 +3,10 @@
 #include <libft.h>
 #include <sys/mman.h>
 
-t_malloc	g_malloc = {NULL, NULL, NULL};
+t_malloc	g_malloc = {NULL, NULL, NULL, 0};
 pthread_mutex_t	g_locker;
 
-int		ft_init_malloc(void)
+int			ft_init_malloc(void)
 {
 	t_memblock	*cast;
 
@@ -29,7 +29,6 @@ int		ft_init_malloc(void)
 	cast->next = NULL;
 	cast->free = 1;
 	LARGE_HEAP = NULL;
-	pthread_mutex_init(&g_locker, NULL);
 	return (0);
 }
 
@@ -52,7 +51,6 @@ void		*ft_alloc(t_memblock *last, size_t size, t_alloc_type type)
 		block->free = 0;
 	return (block->data);
 }
-
 
 t_memblock	*ft_is_valid_block(t_memblock *block)
 {

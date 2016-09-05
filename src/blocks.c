@@ -12,9 +12,10 @@ t_memblock	*ft_find_block(t_memblock **last, size_t size, t_alloc_type type)
 	else if (type == SMALL)
 		b = (t_memblock *)(SMALL_HEAP);
 	else
-		b  = (t_memblock *)(LARGE_HEAP);
-	while (b && !(b->free && b->size >= size)) {
-		*last  = b;
+		b = (t_memblock *)(LARGE_HEAP);
+	while (b && !(b->free && b->size >= size))
+	{
+		*last = b;
 		b = b->next;
 	}
 	return (b);
@@ -54,7 +55,7 @@ void		*ft_large_alloc(size_t size)
 	t_memblock	*new_block;
 
 	size = ALIGN_SIZE_4096(size);
-	new_block =  mmap(0, size + BLOCK_SIZE, PROT_READ | PROT_WRITE,
+	new_block = mmap(0, size + BLOCK_SIZE, PROT_READ | PROT_WRITE,
 			MAP_ANON | MAP_PRIVATE, -1, 0);
 	new_block->size = size;
 	new_block->next = LARGE_HEAP;
