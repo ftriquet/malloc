@@ -6,7 +6,7 @@
 /*   By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/15 16:51:13 by ftriquet          #+#    #+#             */
-/*   Updated: 2017/01/15 16:52:34 by ftriquet         ###   ########.fr       */
+/*   Updated: 2017/01/15 17:15:21 by ftriquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ typedef enum			e_alloc_type
 	NONE
 }						t_alloc_type;
 
+t_alloc_type			get_alloc_type(size_t size);
+t_alloc_type			get_block_type(t_memblock *block);
 void					ft_merge_blocks(t_memblock *block, t_memblock *prev);
 t_memblock				*ft_is_valid_block(t_memblock *block);
 void					dump_memory(void);

@@ -6,7 +6,7 @@
 #    By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/28 08:35:37 by ftriquet          #+#    #+#              #
-#    Updated: 2016/06/03 00:12:25 by ftriquet         ###   ########.fr        #
+#    Updated: 2017/01/15 17:16:16 by ftriquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,7 +129,7 @@ OBJ = $(addprefix $(OBJ_PATH)/, $(OBJ_NAME))
 
 NAME = libft.a
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 INC_PATH = ./includes
 
