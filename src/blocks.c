@@ -6,7 +6,7 @@
 /*   By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 13:42:14 by ftriquet          #+#    #+#             */
-/*   Updated: 2017/01/13 13:42:33 by ftriquet         ###   ########.fr       */
+/*   Updated: 2017/01/15 12:34:17 by ftriquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,14 @@ void		ft_split_block(t_memblock *block, size_t size)
 void		*ft_large_alloc(size_t size)
 {
 	t_memblock	*new_block;
+	size_t		s;
 
+	s = size;
 	size = ALIGN_SIZE_4096(size);
 	new_block = mmap(0, size + BLOCK_SIZE, PROT_READ | PROT_WRITE,
 			MAP_ANON | MAP_PRIVATE, -1, 0);
 	new_block->size = size;
+	new_block->alloc_size = s;
 	new_block->next = LARGE_HEAP;
 	LARGE_HEAP = new_block;
 	return (new_block->data);

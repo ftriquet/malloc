@@ -6,7 +6,7 @@
 /*   By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 13:42:14 by ftriquet          #+#    #+#             */
-/*   Updated: 2017/01/13 13:42:33 by ftriquet         ###   ########.fr       */
+/*   Updated: 2017/01/15 12:32:54 by ftriquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ void	print_alloc_info(t_memblock *b)
 	write(1, " - ", 3);
 	print_addr((void *)(b->data + b->size));
 	write(1, " : ", 3);
-	ft_putnbr((int)(b->size), 10);
+	ft_putnbr((int)(b->alloc_size), 10);
 	write(1, " octets\n", 8);
 }

@@ -6,7 +6,7 @@
 /*   By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 13:41:39 by ftriquet          #+#    #+#             */
-/*   Updated: 2017/01/13 13:41:41 by ftriquet         ###   ########.fr       */
+/*   Updated: 2017/01/15 12:36:22 by ftriquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,26 @@ int			ft_init_malloc(void)
 	return (0);
 }
 
-void		*ft_alloc(t_memblock *last, size_t size, t_alloc_type type)
+void		*ft_alloc(t_memblock *last, size_t block_size, t_alloc_type type, size_t alloc_size)
 {
 	t_memblock	*block;
 
-	block = ft_find_block(&last, size, type);
-	if (block && ((block->size - size) >= (BLOCK_SIZE + 8)))
-		ft_split_block(block, size);
+	block = ft_find_block(&last, block_size, type);
+	if (block && ((block->size - block_size) >= (BLOCK_SIZE + 8)))
+		ft_split_block(block, block_size);
 	else if (!block)
 	{
 		block = ft_extend_heap(last,
 				(type == TINY ? TINY_HEAP_SIZE : SMALL_HEAP_SIZE));
 		if (!block)
 			return (NULL);
-		return (ft_alloc(block, size, type));
+		return (ft_alloc(block, block_size, type, alloc_size));
 	}
 	if (block)
+	{
+		block->alloc_size = alloc_size;
 		block->free = 0;
+	}
 	return (block->data);
 }
 

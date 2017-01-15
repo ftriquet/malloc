@@ -6,7 +6,7 @@
 /*   By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 13:42:14 by ftriquet          #+#    #+#             */
-/*   Updated: 2017/01/13 13:42:22 by ftriquet         ###   ########.fr       */
+/*   Updated: 2017/01/15 12:37:04 by ftriquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ void		free_unsafe(void *addr)
 
 void		*malloc_unsafe(size_t size)
 {
-	size = ALIGN_SIZE_8(size);
+	size_t	aligned;
+
+	aligned = ALIGN_SIZE_8(size);
 	if (size <= TINY_ALLOC_LIMIT)
-		return (ft_alloc(TINY_HEAP, size, TINY));
+		return (ft_alloc(TINY_HEAP, aligned, TINY, size));
 	if (size <= SMALL_ALLOC_LIMIT)
-		return (ft_alloc(SMALL_HEAP, size, SMALL));
+		return (ft_alloc(SMALL_HEAP, aligned, SMALL, size));
 	return (ft_large_alloc(size));
 }
 

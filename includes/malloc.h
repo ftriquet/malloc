@@ -24,6 +24,7 @@ typedef unsigned int	t_ui;
 typedef struct			s_memblock
 {
 	t_ui				size;
+	t_ui				alloc_size;
 	t_ui				free;
 	struct s_memblock	*next;
 	char				data[1];
@@ -68,10 +69,15 @@ t_memblock	*ft_find_block(t_memblock **last, size_t size, t_alloc_type type);
 t_memblock	*ft_extend_heap(t_memblock *last, size_t size);
 void		ft_split_block(t_memblock *block, size_t size);
 void		*ft_large_alloc(size_t size);
-void		*ft_alloc(t_memblock *last, size_t size, t_alloc_type type);
+void		*ft_alloc(t_memblock *last, size_t block_size, t_alloc_type type, size_t alloc_size);
 void		*ft_malloc(size_t size);
 int			ft_init_malloc(void);
 void		*calloc(size_t count, size_t size);
 void		*reallocf(void *ptr, size_t size);
+
+void		*malloc(size_t size);
+void		free(void *addr);
+void		*realloc(void *addr, size_t size);
+
 
 #endif
