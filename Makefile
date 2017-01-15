@@ -6,7 +6,7 @@
 #    By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/05/14 17:19:54 by ftriquet          #+#    #+#              #
-#    Updated: 2016/05/28 14:17:02 by francois         ###   ########.fr        #
+#    Updated: 2017/01/15 16:53:53 by ftriquet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ clean:
 	rm -f $(OBJ)
 
 fclean: clean
+	make fclean -C libft
 	rm -f $(NAME)
 	rm -f $(LINK_NAME)
 

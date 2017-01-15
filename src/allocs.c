@@ -6,7 +6,7 @@
 /*   By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 13:41:39 by ftriquet          #+#    #+#             */
-/*   Updated: 2017/01/15 12:36:22 by ftriquet         ###   ########.fr       */
+/*   Updated: 2017/01/15 16:48:02 by ftriquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int			ft_init_malloc(void)
 	return (0);
 }
 
-void		*ft_alloc(t_memblock *last, size_t block_size, t_alloc_type type, size_t alloc_size)
+void		*ft_alloc(t_memblock *last, size_t block_size,
+		t_alloc_type type, size_t alloc_size)
 {
 	t_memblock	*block;
 

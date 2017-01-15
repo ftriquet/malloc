@@ -1,10 +1,20 @@
-#ifndef MALLOC_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   malloc.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/01/15 16:51:13 by ftriquet          #+#    #+#             */
+/*   Updated: 2017/01/15 16:52:34 by ftriquet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#ifndef MALLOC_H
+# define MALLOC_H
 # include <string.h>
 # include <unistd.h>
 # include <pthread.h>
-
-# define MALLOC_H
 # define TINY_HEAP g_malloc.tiny_heap
 # define SMALL_HEAP g_malloc.small_heap
 # define TINY_HEAP_SIZE (getpagesize() * 64)
@@ -17,7 +27,6 @@
 # define ALIGN_SIZE_4096(x) (((((x) -1) >> 12) << 12) + 4096)
 # define BLOCK_SIZE (sizeof(t_memblock) - sizeof(char *))
 # define LOCK_INIT g_malloc.locked
-
 
 typedef unsigned int	t_ui;
 
@@ -49,35 +58,37 @@ typedef enum			e_alloc_type
 	NONE
 }						t_alloc_type;
 
-void		ft_merge_blocks(t_memblock *block, t_memblock *prev);
-t_memblock	*ft_is_valid_block(t_memblock *block);
-void		dump_memory(void);
-void		ft_free(void *addr);
-void		*ft_realloc(void *addr, size_t size);
-void		ft_remove_large_alloc(t_memblock *block, t_memblock *prev);
+void					ft_merge_blocks(t_memblock *block, t_memblock *prev);
+t_memblock				*ft_is_valid_block(t_memblock *block);
+void					dump_memory(void);
+void					ft_free(void *addr);
+void					*ft_realloc(void *addr, size_t size);
+void					ft_remove_large_alloc(t_memblock *block,
+		t_memblock *prev);
 
-void		*malloc_unsafe(size_t size);
-void		free_unsafe(void *addr);
-void		*realloc_unsafe(void *addr, size_t size);
-void		print_memzone(t_memblock *b, t_ui *total);
-void		print_addr(void *addr);
-void		show_alloc_mem(void);
-void		print_alloc_info(t_memblock *b);
-void		dump_zone(t_alloc_type type);
+void					*malloc_unsafe(size_t size);
+void					free_unsafe(void *addr);
+void					*realloc_unsafe(void *addr, size_t size);
+void					print_memzone(t_memblock *b, t_ui *total);
+void					print_addr(void *addr);
+void					show_alloc_mem(void);
+void					print_alloc_info(t_memblock *b);
+void					dump_zone(t_alloc_type type);
 
-t_memblock	*ft_find_block(t_memblock **last, size_t size, t_alloc_type type);
-t_memblock	*ft_extend_heap(t_memblock *last, size_t size);
-void		ft_split_block(t_memblock *block, size_t size);
-void		*ft_large_alloc(size_t size);
-void		*ft_alloc(t_memblock *last, size_t block_size, t_alloc_type type, size_t alloc_size);
-void		*ft_malloc(size_t size);
-int			ft_init_malloc(void);
-void		*calloc(size_t count, size_t size);
-void		*reallocf(void *ptr, size_t size);
+t_memblock				*ft_find_block(t_memblock **last, size_t size,
+		t_alloc_type type);
+t_memblock				*ft_extend_heap(t_memblock *last, size_t size);
+void					ft_split_block(t_memblock *block, size_t size);
+void					*ft_large_alloc(size_t size);
+void					*ft_alloc(t_memblock *last, size_t block_size,
+		t_alloc_type type, size_t alloc_size);
+void					*ft_malloc(size_t size);
+int						ft_init_malloc(void);
+void					*calloc(size_t count, size_t size);
+void					*reallocf(void *ptr, size_t size);
 
-void		*malloc(size_t size);
-void		free(void *addr);
-void		*realloc(void *addr, size_t size);
-
+void					*malloc(size_t size);
+void					free(void *addr);
+void					*realloc(void *addr, size_t size);
 
 #endif
