@@ -6,7 +6,7 @@
 /*   By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 13:42:14 by ftriquet          #+#    #+#             */
-/*   Updated: 2017/01/15 17:14:22 by ftriquet         ###   ########.fr       */
+/*   Updated: 2017/01/15 17:21:15 by ftriquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void		*realloc_unsafe(void *addr, size_t size)
 
 	if (addr == NULL)
 		return (malloc_unsafe(size));
-	prev = ft_is_valid_block((t_memblock *)(addr - BLOCK_SIZE));
-	if (prev == NULL)
+	if ((prev = ft_is_valid_block((t_memblock *)(addr - BLOCK_SIZE))) == NULL)
 		return (NULL);
 	block = (prev == (addr - BLOCK_SIZE)) ? prev : prev->next;
 	if (block->next && block->next->free == 1 &&
-			block->next->size + block->size >= size && get_block_type(block) == get_alloc_type(size))
+			block->next->size + block->size >= size &&
+			get_block_type(block) == get_alloc_type(size))
 	{
 		block->size += block->next->size + BLOCK_SIZE;
 		block->alloc_size += size;
