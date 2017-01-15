@@ -6,7 +6,7 @@
 /*   By: ftriquet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 13:42:14 by ftriquet          #+#    #+#             */
-/*   Updated: 2017/01/15 12:37:04 by ftriquet         ###   ########.fr       */
+/*   Updated: 2017/01/15 16:46:51 by ftriquet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void		*realloc_unsafe(void *addr, size_t size)
 			block->next->size + block->size >= size)
 	{
 		block->size += block->next->size + BLOCK_SIZE;
+		block->alloc_size += size;
 		block->next = block->next->next;
 		ft_split_block(block, size);
 		return (block);
